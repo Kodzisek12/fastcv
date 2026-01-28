@@ -13,6 +13,7 @@ setup(
                 "kernels/dilation.cu",
                 "kernels/erosion.cu",
                 "kernels/module.cpp",
+                "kernels/gaussian_blur.cu",
             ],
             extra_compile_args={"cxx": ["-O2"]},
         ),
