@@ -1,12 +1,12 @@
 import cv2
 import torch
 import fastcv
-print(fastcv.__file__)
-img = cv2.imread("artifacts/test.jpg")
-img_tensor = torch.from_numpy(img).contiguous().cuda()
-blurred_tensor = fastcv.GaussianBlur(img_tensor, 5, 1.0, 1.0)
+
+img = cv2.imread("artifacts/regis.jpg")
+img_tensor = torch.from_numpy(img).cuda()
+blurred_tensor = fastcv.GaussianBlur(img_tensor, 15, 5, 5)
 
 blurred_image = blurred_tensor.cpu().numpy()
-cv2.imwrite("output_gaussian_blur.jpg", blurred_image)
+cv2.imwrite("output__gaussian_blur.jpg", blurred_image)
 
 print("saved blurred image.")

@@ -15,7 +15,7 @@ setup(
                 "kernels/module.cpp",
                 "kernels/gaussian_blur.cu",
             ],
-            extra_compile_args={"cxx": ["-O2"]},
+            extra_compile_args={"cxx": ["-O2"], "nvcc" : ["--extended-lambda"]},
         ),
     ],
     cmdclass={"build_ext": BuildExtension},
