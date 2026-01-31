@@ -121,9 +121,7 @@ torch::Tensor GaussianBlurCUDA(
     double sigmaY)
 {
     nvtxRangePushA("GaussianBlurCUDA - Start");
-    TORCH_CHECK(img.is_cuda(), "Input image must be a CUDA tensor");
-    TORCH_CHECK(img.dtype() == torch::kByte, "Input image must be of type Byte (unsigned char)");
-    TORCH_CHECK(img.dim() == 3, "Input image must be a 3D tensor ( H, W, C)");
+    
     int radius = blurSize / 2;
     int channels = img.size(2);
     int height = img.size(0);
@@ -151,10 +149,6 @@ torch::Tensor GaussianBlurCUDA(
         channels 
         );
 
-    using DeviceUchartPointer = thrust::device_ptr<unsigned char>;
-    DeviceUchartPointer thrust_in_pointer = thrust::device_pointer_cast(d_in);
-    DeviceUchartPointer thrust_out_pointer = thrust::device_pointer_cast(d_output);
-    
     size_t sharedMemSize = (blockSize.x + 2*radius ) * (blockSize.y + 2*radius) * sizeof(unsigned char);
     nvtxRangePop(); 
     nvtxRangePushA("GaussianBlurCUDA - Kernel Launch");
@@ -171,9 +165,10 @@ torch::Tensor GaussianBlurCUDA(
         if(err != cudaSuccess) {
             printf("CUDA Kernel Error: %s\n", cudaGetErrorString(err));
 }
-    cudaDeviceSynchronize();
+    nvtxRangePop();
+    
     C10_CUDA_KERNEL_LAUNCH_CHECK();
-    nvtxRangePop(); 
+     
     nvtxRangePop(); 
     return out_tensor;
 }
