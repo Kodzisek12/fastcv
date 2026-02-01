@@ -23,7 +23,7 @@ def benchmark_blur(sizes=[1024, 2048, 4096], runs=50):
         torch.cuda.synchronize()
         start = time.perf_counter()
         for _ in range(runs):
-            _ = fastcv.GaussianBlur(img_torch, 5, 1.5, 1.5)
+            _ = fastcv.GaussianBlur(img_torch, (5,5), 1.5, 1.5)
         torch.cuda.synchronize()
         end = time.perf_counter()
         fc_time = (end - start) / runs * 1000  # ms per run

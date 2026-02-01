@@ -6,7 +6,7 @@ torch::Tensor box_blur(torch::Tensor img, int blurSize);
 torch::Tensor sobel(torch::Tensor img);
 torch::Tensor dilation(torch::Tensor img, int filterSize);
 torch::Tensor erosion(torch::Tensor img, int filterSize);
-torch::Tensor GaussianBlurCUDA(torch::Tensor img, int blurSize, double sigmaX, double sigmaY);
+torch::Tensor GaussianBlurCUDA(torch::Tensor img, at::IntArrayRef ksize, double sigmaX, double sigmaY);
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m){
     m.def("GaussianBlur", &GaussianBlurCUDA, "Gaussian blur kernel");
